@@ -422,3 +422,10 @@ configure_file(
 )
 
 
+# Ensure we link libm dynamically
+target_link_options(SpecUtils PRIVATE "-Wl,-Bdynamic" "-lm")
+# Remove accidental global -static
+string(REPLACE "-static" "" CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-Wno-unknown-warning-option)
+endif()
